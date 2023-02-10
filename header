@@ -1,0 +1,14 @@
+#pragma once
+
+int checkInt(int value, int* arr, int size);  
+// help the array get checked
+
+
+int modifyInt(int value, int index, int* arr);
+//gets new value and tosses old one 
+
+void addInt(int value, int* &arr, int size); 
+// just adds a new int
+
+void removeInt(int index, int* &arr, int size); 
+// removes
