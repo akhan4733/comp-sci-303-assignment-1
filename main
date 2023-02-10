@@ -1,0 +1,213 @@
+#include <iostream>
+#include <fstream>
+#include "header.h" //header
+#include <exception> //exception is thrown
+using namespace std; 
+
+//checks the size of array
+int checkInt(int value, int* arr, int size) {
+
+    for (int i = 0; i < size; i++) {
+
+        if (arr[i] == value) {
+            return i;
+        }
+
+    }
+
+    return -1;
+}
+
+
+//array size and values is searched
+int modifyInt(int value, int index, int* arr) {
+
+    int old = arr[index];
+
+    arr[index] = value;
+
+    int size2 = 10;
+    for (int i = 0; i < size2; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+    return old;
+}
+
+//for add integer
+void addInt(int value, int*& arr, int size) {
+
+    int* arr2 = arr;
+
+    arr = new int[size + 1];
+
+    for (int i = 0; i < size; i++) {
+        arr[i] = arr2[i];
+    }
+
+    arr[size] = value;
+
+    delete[] arr2;
+    arr2 = nullptr;
+
+    for (int i = 0; i < size + 1; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+}
+
+//for remove integer
+void removeInt(int index, int*& arr, int size) {
+
+    int* arr2 = arr; // copies location of array
+
+    arr = new int[size - 1]; // pointing to the location of new array
+
+    int arrpos = 0;
+
+    for (int i = 0; i < size; i++) {
+        if (i != index) {
+            arr[arrpos] = arr2[i];
+            arrpos++;
+        }
+
+    }
+
+    delete[] arr2;
+    arr2 = nullptr; // pointer isnt pointing to anything
+
+    for (int i = 0; i < size; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+}
+
+int main() //main source of code
+{
+    int* arr = new int[10];
+    int size = 10;
+
+    ifstream inFile; 
+    inFile.open("text.txt"); // opens the file
+
+    
+    //puts the file into an array
+    if (inFile.is_open()) { 
+        for (int i = 0; i < size; i++) {
+            inFile >> arr[i];
+
+        }
+  
+    }
+    else { //shows if the array cant be read
+        cout << "error in input file" << endl;
+        return 1;
+    }
+
+    inFile.close();
+
+    char userInput;
+
+    // user side
+    do {
+        // Displays menu options 
+        cout << "array " << endl;
+        cout << "c ~ (check integer position) " << endl;
+        cout << "m ~ (modify value of integer) " << endl;
+        cout << "a ~ (add integer) " << endl;
+        cout << "r ~ (remove integer) " << endl;
+        cout << "e ~ exit" << endl;
+
+        cout << endl;
+        cout << "please enter desired function (enter letter): ";
+        cin >> userInput; // geting User Input 
+
+        switch (toupper(userInput)) {
+
+        case 'C': { //checking the array for an integer 
+
+            int userInput;
+
+            // prompting the user
+            cout << "Please enter what integer you want to check: ";
+
+            cin >> userInput;
+
+            // outputs index
+            cout << "The position is " << checkInt(userInput, arr, size) << endl;
+
+            int size1 = 10;
+            for (int i = 0; i < size1; i++) {
+                cout << arr[i] << " ";
+            }
+            cout << endl;
+
+            break;
+        }
+        case 'M': // modifying the integer 
+
+            int valueUserInt;
+            int posUser;
+
+            // prompting the user
+            cout << "Please enter the new value: ";
+            cin >> valueUserInt;
+            cout << endl;
+            cout << "Please enter the position of the integer you want to modify: ";
+            cin >> posUser;
+            cout << endl;
+
+            // outputs the new and old values
+            cout << "The new value is " << valueUserInt << " and the old value was " << modifyInt(valueUserInt, posUser, arr) << endl;
+
+            break;
+
+        case 'A': // adds int to end 
+
+            int value;
+
+            // Prompting the user
+            cout << "Please enter the value you want to add: ";
+            cin >> value;
+            cout << endl;
+
+            addInt(value, arr, size);
+ try{
+   int*myarray = new int [1000];
+   
+ }
+   catch (exception& e)
+   {
+     cout << "error try again:" << e.what() << endl;
+     
+   }
+  
+   
+            break;
+
+        case 'R': //removes an int from array 
+
+            int index;
+
+            // Prompting the user
+            cout << "Please enter the position you want to remove: ";
+            cin >> index;
+            cout << endl;
+
+            removeInt(index, arr, size);
+
+            break;
+
+       
+        }
+
+
+    } while (toupper(userInput) != 'E'); // Ending the program 
+
+  
+
+    return 0;
+}
